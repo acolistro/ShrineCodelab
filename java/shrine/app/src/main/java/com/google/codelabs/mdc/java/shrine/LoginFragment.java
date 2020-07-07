@@ -6,6 +6,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -28,6 +33,7 @@ public class LoginFragment extends Fragment {
         final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
         MaterialButton nextButton = view.findViewById(R.id.next_button);
 
+
         // Set an error if the password is less than 8 characters.
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,12 +54,35 @@ public class LoginFragment extends Fragment {
                     passwordTextInput.setError(null); //Clear the error
                 }
                 return false;
+
+
+        // Set an error if the password is less than 8 characters.
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isPasswordValid(passwordEditText.getText())) {
+                    passwordTextInput.setError(getString(R.string.shr_error_password));
+                } else {
+                    passwordTextInput.setError(null); // Clear the error
+                    ((NavigationHost) getActivity()).navigateTo(new ProductGridFragment(), false); // Navigate to the next Fragment
+                }
+
             }
         });
 
+        // Clear the error once more than 8 characters are typed.
+        passwordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (isPasswordValid(passwordEditText.getText())) {
+                    passwordTextInput.setError(null); //Clear the error
+                }
+                return false;
+            }
+        });
         return view;
     }
-
+          
     private boolean isPasswordValid(@Nullable Editable text) {
         return text != null && text.length() >= 8;
     }
