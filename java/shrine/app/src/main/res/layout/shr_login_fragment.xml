@@ -85,6 +85,6 @@
                 android:text="@string/shr_button_cancel" />
 
         </RelativeLayout>
-        
+
     </LinearLayout>
 </ScrollView>
